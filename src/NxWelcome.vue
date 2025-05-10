@@ -54,7 +54,7 @@ const togglePurchase = (item: Item) => {
       <li
         v-for="item in items"
         :key="item.id"
-        :class="{ priority: item.highPriority, strikeout: item.purchased }"
+        :class="[ { 'priority': item.highPriority }, { 'strikeout': item.purchased } ]"
         @click="togglePurchase(item)"
       >
         {{ item.id }} - {{ item.label }}
