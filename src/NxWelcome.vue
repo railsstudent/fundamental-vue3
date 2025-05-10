@@ -42,11 +42,23 @@ const togglePurchase = (item: Item) => {
     </div>
     <form class="add-item-form" v-if="isEditing" @submit.prevent="saveItem">
       <input v-model.trim="newItem" placeholder="Add new item" />
-      <label> <input type="checkbox" v-model="newItemHighPriority" /> High Priority </label>
+      <label>
+        <input type="checkbox" v-model="newItemHighPriority" />
+        <span :style="{ 'font-weight': newItemHighPriority ? 'bold' : 'normal' }">
+          High Priority</span
+        >
+      </label>
       <button class="btn btn-primary" :disabled="newItem.length < 5">Save Item</button>
     </form>
     <ul v-if="items.length > 0">
-      <li v-for="{ id, label } in items" :key="id">{{ id }} - {{ label }}</li>
+      <li
+        v-for="item in items"
+        :key="item.id"
+        :class="{ priority: item.highPriority, strikeout: item.purchased }"
+        @click="togglePurchase(item)"
+      >
+        {{ item.id }} - {{ item.label }}
+      </li>
     </ul>
     <p v-else>Nothing to see here.</p>
   </div>
