@@ -1,15 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+type Item = { id: number; label: string; highPriority: boolean; purchased: boolean }
+
 const header = ref('Shopping List App')
-const items = ref<{ id: number; label: string }[]>([])
+const items = ref<Item[]>([])
 
 const newItem = ref('')
 const newItemHighPriority = ref(false)
 
 const saveItem = () => {
-  items.value.push({ id: items.value.length + 1, label: newItem.value })
+  items.value.push({
+    id: items.value.length + 1,
+    label: newItem.value,
+    highPriority: newItemHighPriority.value,
+    purchased: false,
+  })
   newItem.value = ''
+  newItemHighPriority.value = false
 }
 
 const isEditing = ref(false)
@@ -17,6 +25,11 @@ const isEditing = ref(false)
 const toggleEditing = (value: boolean) => {
   isEditing.value = value
   newItem.value = ''
+  newItemHighPriority.value = false
+}
+
+const togglePurchase = (item: Item) => {
+  item.purchased = !item.purchased
 }
 </script>
 
