@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import NxWelcome from './NxWelcome.vue'
+import ShoppingCart from './ShoppingCart.vue'
 </script>
 
 <template>
-  <NxWelcome />
+  <ShoppingCart />
 </template>
