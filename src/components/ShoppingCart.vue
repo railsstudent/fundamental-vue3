@@ -34,34 +34,32 @@ const togglePurchase = (item: Item) => {
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="header">
-      <h1>{{ header || 'Welcome' }}</h1>
-      <button class="btn" v-if="isEditing" @click="toggleEditing(false)">Cancel</button>
-      <button class="btn btn-primary" v-else @click="toggleEditing(true)">Add Item</button>
-    </div>
-    <form class="add-item-form" v-if="isEditing" @submit.prevent="saveItem">
-      <input v-model.trim="newItem" placeholder="Add new item" />
-      <label>
-        <input type="checkbox" v-model="newItemHighPriority" />
-        <span :style="{ 'font-weight': newItemHighPriority ? 'bold' : 'normal' }">
-          High Priority</span
-        >
-      </label>
-      <button class="btn btn-primary" :disabled="newItem.length < 5">Save Item</button>
-    </form>
-    <ul v-if="items.length > 0">
-      <li
-        v-for="item in items"
-        :key="item.id"
-        :class="[ { 'priority': item.highPriority }, { 'strikeout': item.purchased } ]"
-        @click="togglePurchase(item)"
-      >
-        {{ item.id }} - {{ item.label }}
-      </li>
-    </ul>
-    <p v-else>Nothing to see here.</p>
+  <div class="header">
+    <h1>{{ header || 'Welcome' }}</h1>
+    <button class="btn" v-if="isEditing" @click="toggleEditing(false)">Cancel</button>
+    <button class="btn btn-primary" v-else @click="toggleEditing(true)">Add Item</button>
   </div>
+  <form class="add-item-form" v-if="isEditing" @submit.prevent="saveItem">
+    <input v-model.trim="newItem" placeholder="Add new item" />
+    <label>
+      <input type="checkbox" v-model="newItemHighPriority" />
+      <span :style="{ 'font-weight': newItemHighPriority ? 'bold' : 'normal' }">
+        High Priority</span
+      >
+    </label>
+    <button class="btn btn-primary" :disabled="newItem.length < 5">Save Item</button>
+  </form>
+  <ul v-if="items.length > 0">
+    <li
+      v-for="item in items"
+      :key="item.id"
+      :class="[ { 'priority': item.highPriority }, { 'strikeout': item.purchased } ]"
+      @click="togglePurchase(item)"
+    >
+      {{ item.id }} - {{ item.label }}
+    </li>
+  </ul>
+  <p v-else>Nothing to see here.</p>
 </template>
 
 <style scoped>
