@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { Icon } from "@iconify/vue";
+import { ref } from 'vue';
 
 type Item = { id: number; label: string; highPriority: boolean; purchased: boolean }
 
@@ -31,6 +32,10 @@ const toggleEditing = (value: boolean) => {
 const togglePurchase = (item: Item) => {
   item.purchased = !item.purchased
 }
+
+const deleteItem = (id: number) => {
+  items.value = items.value.filter(item => item.id !== id)
+}
 </script>
 
 <template>
@@ -50,14 +55,17 @@ const togglePurchase = (item: Item) => {
     <button class="btn btn-primary" :disabled="newItem.length < 5">Save Item</button>
   </form>
   <ul v-if="items.length > 0">
-    <li
-      v-for="item in items"
-      :key="item.id"
-      :class="[ { 'priority': item.highPriority }, { 'strikeout': item.purchased } ]"
-      @click="togglePurchase(item)"
-    >
-      {{ item.id }} - {{ item.label }}
-    </li>
+    <div class="list-item" v-for="item in items" :key="item.id">
+      <li
+        :class="[ { 'priority': item.highPriority }, { 'strikeout': item.purchased } ]"
+        @click="togglePurchase(item)"
+      >
+        {{ item.id }} - {{ item.label }}
+      </li>
+      <button class="btn btn-cancel" aria-label="Delete" @click="deleteItem(item.id)">
+        <Icon icon="ic:baseline-remove" />
+      </button>
+    </div>
   </ul>
   <p v-else>Nothing to see here.</p>
 </template>
@@ -65,5 +73,13 @@ const togglePurchase = (item: Item) => {
 <style scoped>
 input {
   padding: 0.25rem;
+}
+
+div.list-item {
+  display: flex
+}
+
+div.list-item > li {
+  margin-right: 0.5rem;
 }
 </style>
