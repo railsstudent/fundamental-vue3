@@ -10,7 +10,7 @@ const reverse_items = computed(() => [...items.value].reverse())
 const num_items_purchased = computed(() =>
   items.value.reduce((acc, item) => acc + (item.purchased ? 1 : 0), 0),
 )
-const num_items_purchased_label = computed(()=> {
+const num_items_purchased_label = computed(() => {
   const unit = num_items_purchased.value === 1 ? 'item' : 'items'
   return `${num_items_purchased.value} ${unit} purchased`
 })
@@ -64,7 +64,7 @@ const deleteItem = (id: number) => {
   </form>
   <ul v-if="items.length > 0">
     <div class="header">
-      <p>{{  num_items_purchased_label }}</p>
+      <p>{{ num_items_purchased_label }}</p>
     </div>
     <div class="list-item" v-for="item in reverse_items" :key="item.id">
       <li
@@ -73,7 +73,12 @@ const deleteItem = (id: number) => {
       >
         {{ item.id }} - {{ item.label }}
       </li>
-      <button v-if="!item.purchased" class="btn btn-cancel" aria-label="Delete" @click="deleteItem(item.id)">
+      <button
+        v-if="!item.purchased"
+        class="btn btn-cancel"
+        aria-label="Delete"
+        @click="deleteItem(item.id)"
+      >
         <Icon icon="ic:baseline-remove" />
       </button>
     </div>
