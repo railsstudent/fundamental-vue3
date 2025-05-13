@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { Icon } from "@iconify/vue";
-import { ref } from 'vue';
+import { Icon } from '@iconify/vue'
+import { ref, computed } from 'vue'
 
 type Item = { id: number; label: string; highPriority: boolean; purchased: boolean }
 
 const header = ref('Shopping List App')
 const items = ref<Item[]>([])
+const reverse_items = computed(() => [...items.value].reverse())
+const num_items_purchased = computed(() =>
+  items.value.reduce((acc, item) => acc + (item.purchased ? 1 : 0), 0),
+)
+const num_items_purchased_label = computed(()=> {
+  const unit = num_items_purchased.value === 1 ? 'item' : 'items'
+  return `${num_items_purchased.value} ${unit} purchased`
+})
 
 const newItem = ref('')
 const newItemHighPriority = ref(false)
@@ -34,7 +42,7 @@ const togglePurchase = (item: Item) => {
 }
 
 const deleteItem = (id: number) => {
-  items.value = items.value.filter(item => item.id !== id)
+  items.value = items.value.filter((item) => item.id !== id)
 }
 </script>
 
@@ -55,14 +63,17 @@ const deleteItem = (id: number) => {
     <button class="btn btn-primary" :disabled="newItem.length < 5">Save Item</button>
   </form>
   <ul v-if="items.length > 0">
-    <div class="list-item" v-for="item in items" :key="item.id">
+    <div class="header">
+      <p>{{  num_items_purchased_label }}</p>
+    </div>
+    <div class="list-item" v-for="item in reverse_items" :key="item.id">
       <li
-        :class="[ { 'priority': item.highPriority }, { 'strikeout': item.purchased } ]"
+        :class="[{ priority: item.highPriority }, { strikeout: item.purchased }]"
         @click="togglePurchase(item)"
       >
         {{ item.id }} - {{ item.label }}
       </li>
-      <button class="btn btn-cancel" aria-label="Delete" @click="deleteItem(item.id)">
+      <button v-if="!item.purchased" class="btn btn-cancel" aria-label="Delete" @click="deleteItem(item.id)">
         <Icon icon="ic:baseline-remove" />
       </button>
     </div>
@@ -76,7 +87,7 @@ input {
 }
 
 div.list-item {
-  display: flex
+  display: flex;
 }
 
 div.list-item > li {
