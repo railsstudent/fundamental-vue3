@@ -64,7 +64,8 @@ const deleteItem = (id: number) => {
   </form>
   <ul v-if="items.length > 0">
     <div class="header">
-      <p>{{ num_items_purchased_label }}</p>
+      <p v-if="num_items_purchased > 0">{{ num_items_purchased_label }}</p>
+      <p v-else>You have not purchased any items yet.</p>
     </div>
     <div class="list-item" v-for="item in reverse_items" :key="item.id">
       <li
