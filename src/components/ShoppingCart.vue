@@ -4,7 +4,7 @@ import { ref, computed } from 'vue'
 
 type Item = { id: number; label: string; highPriority: boolean; purchased: boolean }
 
-const header = ref('Shopping List App')
+const header = ref('Shopping List App - Vue 3')
 const items = ref<Item[]>([])
 const reverse_items = computed(() => [...items.value].reverse())
 const num_items_purchased = computed(() =>
@@ -49,8 +49,12 @@ const deleteItem = (id: number) => {
 <template>
   <div class="header">
     <h1>{{ header || 'Welcome' }}</h1>
-    <button class="btn" v-if="isEditing" @click="toggleEditing(false)">Cancel</button>
-    <button class="btn btn-primary" v-else @click="toggleEditing(true)">Add Item</button>
+    <button class="btn" v-if="isEditing" @click="toggleEditing(false)" aria-label="Cancel">
+      <Icon icon="ic:outline-close" />
+    </button>
+    <button class="btn btn-primary" v-else @click="toggleEditing(true)" aria-label="Add Item">
+      <Icon icon="ic:outline-add" />
+    </button>
   </div>
   <form class="add-item-form" v-if="isEditing" @submit.prevent="saveItem">
     <input v-model.trim="newItem" placeholder="Add new item" />
@@ -60,32 +64,36 @@ const deleteItem = (id: number) => {
         High Priority</span
       >
     </label>
-    <button class="btn btn-primary" :disabled="newItem.length < 5">Save Item</button>
+    <button class="btn btn-primary" :disabled="newItem.length < 5" arial="Save Item">
+      <Icon icon="ic:outline-save" />
+    </button>
   </form>
-  <ul v-if="items.length > 0">
+  <template v-if="items.length > 0">
     <div class="header">
       <template v-if="num_items_purchased > 0 && num_items_purchased < items.length">
         {{ num_items_purchased_label }}</template>
       <template v-else-if="num_items_purchased === 0">You have not purchased any items yet.</template>
       <template v-else="">You have bought everything in the shopping cart.</template>
     </div>
-    <div class="list-item" v-for="item in reverse_items" :key="item.id">
-      <li
-        :class="[{ priority: item.highPriority }, { strikeout: item.purchased }]"
-        @click="togglePurchase(item)"
-      >
-        {{ item.id }} - {{ item.label }}
-      </li>
-      <button
-        v-if="!item.purchased"
-        class="btn btn-cancel"
-        aria-label="Delete"
-        @click="deleteItem(item.id)"
-      >
-        <Icon icon="ic:baseline-remove" />
-      </button>
-    </div>
-  </ul>
+    <ul>
+      <div class="list-item" v-for="item in reverse_items" :key="item.id">
+        <li
+          :class="[{ priority: item.highPriority }, { strikeout: item.purchased }]"
+          @click="togglePurchase(item)"
+        >
+          {{ item.id }} - {{ item.label }}
+        </li>
+        <button
+          v-if="!item.purchased"
+          class="btn btn-cancel"
+          aria-label="Delete"
+          @click="deleteItem(item.id)"
+        >
+          <Icon icon="ic:baseline-remove" />
+        </button>
+      </div>
+    </ul>
+  </template>
   <p v-else>Nothing to see here.</p>
 </template>
 
