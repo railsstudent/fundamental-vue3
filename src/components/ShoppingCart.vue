@@ -64,7 +64,7 @@ const deleteItem = (id: number) => {
         High Priority</span
       >
     </label>
-    <button class="btn btn-primary" :disabled="newItem.length < 5" arial="Save Item">
+    <button class="btn btn-primary" :disabled="newItem.length < 5" aria-label="Save Item">
       <Icon icon="ic:outline-save" />
     </button>
   </form>
