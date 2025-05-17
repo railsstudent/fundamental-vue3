@@ -30,6 +30,7 @@ const saveItem = () => {
 }
 
 const isEditing = ref(false)
+const highPriorityStyle = computed(() => (newItemHighPriority.value ? 'bold' : 'normal'))
 
 const toggleEditing = (value: boolean) => {
   isEditing.value = value
@@ -60,7 +61,7 @@ const deleteItem = (id: number) => {
     <input v-model.trim="newItem" placeholder="Add new item" />
     <label>
       <input type="checkbox" v-model="newItemHighPriority" />
-      <span :style="{ 'font-weight': newItemHighPriority ? 'bold' : 'normal' }">
+      <span :style="{ 'font-weight': highPriorityStyle }">
         High Priority</span
       >
     </label>
@@ -71,8 +72,11 @@ const deleteItem = (id: number) => {
   <template v-if="items.length > 0">
     <div class="header">
       <template v-if="num_items_purchased > 0 && num_items_purchased < items.length">
-        {{ num_items_purchased_label }}</template>
-      <template v-else-if="num_items_purchased === 0">You have not purchased any items yet.</template>
+        {{ num_items_purchased_label }}</template
+      >
+      <template v-else-if="num_items_purchased === 0"
+        >You have not purchased any items yet.</template
+      >
       <template v-else="">You have bought everything in the shopping cart.</template>
     </div>
     <ul>
