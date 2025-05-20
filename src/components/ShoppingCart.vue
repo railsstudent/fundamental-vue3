@@ -69,9 +69,9 @@ const deleteItem = (id: number) => {
       <Icon icon="ic:outline-save" />
     </button>
   </form>
-  <template v-if="items.length > 0">
+  <template v-if="reverse_items.length > 0">
     <div class="header">
-      <template v-if="num_items_purchased > 0 && num_items_purchased < items.length">
+      <template v-if="num_items_purchased > 0 && num_items_purchased < reverse_items.length">
         {{ num_items_purchased_label }}</template
       >
       <template v-else-if="num_items_purchased === 0"
