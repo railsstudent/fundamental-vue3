@@ -4,12 +4,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-const base = process.env.NODE_ENV === 'development' ?  
-  'http://localhost:4173/fundamental-vue3/' : 'https://railsstudent.github.io/fundamental-vue3/'
-
 // https://vite.dev/config/
 export default defineConfig({
-  base,
+  base: '/fundamental-vue3/',
   plugins: [
     vue(),
     vueDevTools(),
